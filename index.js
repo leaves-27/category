@@ -11,7 +11,8 @@ var endData = {
 
 var CsvToJSON = {
   init:function(){
-    var files = ["1","2","3"];
+    var files = ["car","bike","3c"];
+    this.files = files;
     var _self = this;
     var newFiles = []
     for(var i=0;i<files.length;i++){
@@ -43,6 +44,7 @@ var CsvToJSON = {
     return temp;
   },
   getProductType(data,fileName){
+    var _this = this;
     var types = [];
     var rows = data.split(/\s+/);
     var json = {};
@@ -53,7 +55,7 @@ var CsvToJSON = {
       for(var i in rows){
         var cols = rows[i].split(",");
 
-        if(fileName=="3"){
+        if(fileName==_this.files[2]){
           if(brands[j]==cols[0]){
             json[brands[j]].push(cols[1]);
           }
@@ -72,11 +74,13 @@ var CsvToJSON = {
     return types;
   },
   getProductBrand(data,fileName){
+    var _this = this;
     var rows = data.split(/\s+/);
     var brands = [];
     for(var i in rows){
       var cols = rows[i].split(",");
-      if(fileName=="3"){
+      
+      if(fileName==_this.files[2]){
         if(cols[0]){
           brands.push(cols[0])
         };
@@ -97,7 +101,7 @@ var CsvToJSON = {
     });
   },
   read:function(name,callback){
-    var url = __dirname + '/'+name+'.csv';
+    var url = __dirname + '/csv/'+name+'.csv';
 
     var data = fs.readFileSync(url, {flag: 'r+', encoding: 'utf8'});
     return data;
