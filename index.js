@@ -11,7 +11,7 @@ var endData = {
 
 var CsvToJSON = {
   init:function(){
-    var files = ["car","bike","3c"];
+    var files = ["car","bike","3C"];
     this.files = files;
     var _self = this;
     var newFiles = []
