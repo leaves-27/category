@@ -113,8 +113,7 @@ var CsvToJSON = {
     //   callback(data);
     // });
   },
-  write:function(name,data){
-    var url = __dirname + "/json/"+ name +".json";
+  openAndWrite:function(url,data){
     fs.open(url, 'w', '777', function (err, fd) {
       fs.writeFile(url, data, {flag: 'w+', encoding: 'utf8'}, function (err) {
         if(err) {
@@ -124,7 +123,21 @@ var CsvToJSON = {
         }
       });
     });
-    
+  },
+  write:function(name,data){
+    var prefixUrl = __dirname + "/json/";
+    var url = prefixUrl + name +".json";
+    var _self = this;
+
+    fs.stat(prefixUrl, function (err, stats) {
+      if(err && err.errno==-2){
+        fs.mkdir(prefixUrl, function(){
+          _self.openAndWrite(url,data);
+        })
+      }else{
+        _self.openAndWrite(url,data);
+      }
+    });
   }
 }
 
